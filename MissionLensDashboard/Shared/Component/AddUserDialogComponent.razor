@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+<div class="modal fade @(IsOpen ? "show d-block" : "")" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3 rounded-3">
+
+            <!-- Header -->
+            <div class="modal-header border-0">
+                <h5 class="modal-title">Add a User</h5>
+                <button type="button" class="btn-close" @onclick="Close"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <EditForm Model="NewUser" OnValidSubmit="HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <!-- Profile Picture Upload -->
+                    <div class="text-center mb-3 d-flex gap-2 text-sm justify-content-center align-items-center">
+                        
+                        <InputFile OnChange="HandleFileSelected" class="d-none" id="profileUpload" />
+                        <label for="profileUpload" class="btn btn-outline-secondary rounded-circle" style="width:100px; height:100px; display:flex; justify-content:center; align-items:center;">
+                            <i class="oi oi-image" style="font-size:1.5rem;"></i>
+                        </label>
+                        <div class="d-flex text-left flex-column">
+                            <label >Upload a Profile Picture</label>
+                            <div >Choose a photo to upload as your profile picture.</div>
+                        </div>
+                    </div>
+
+                    <!-- User Type -->
+                    <div class="mb-3">
+                        <label>User Type</label>
+                        <InputSelect class="form-select shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.UserType">
+                            <option value="">Select user type</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Member">Member</option>
+                        </InputSelect>
+                    </div>
+
+                    <!-- Name & Email -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Name</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Name" />
+                        </div>
+                        <div class="col">
+                            <label>Email</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Email" type="email" />
+                        </div>
+                    </div>
+
+                    <!-- Phone & Title -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Phone</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Phone" />
+                        </div>
+                        <div class="col">
+                            <label>Title</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Title" />
+                        </div>
+                    </div>
+
+                    <!-- Password & Confirm -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Password</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Password" type="password" />
+                        </div>
+                        <div class="col">
+                            <label>Retype Password</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.ConfirmPassword" type="password" />
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success rounded-pill px-5">Save</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@using MissionLensDashboard.Data
+@code {
+    [Parameter] public bool IsOpen { get; set; }
+    [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
+    [Parameter] public EventCallback<UserModel> OnSave { get; set; }
+
+    private UserModel NewUser { get; set; } = new();
+
+    private void Close()
+    {
+        IsOpen = false;
+        IsOpenChanged.InvokeAsync(false);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await OnSave.InvokeAsync(NewUser);
+        Close();
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        // Handle file upload here (store as base64, upload to API, etc.)
+        Console.WriteLine($"Uploaded: {file.Name}");
+    }
+
+}

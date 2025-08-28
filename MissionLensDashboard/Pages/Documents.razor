@@ -1,0 +1,18 @@
+﻿@page "/alpha1/documents"
+@using MissionLensDashboard.Shared.Component
+@using MissionLensDashboard.Data
+<BreadcrumbComponent Items="breadcrumbs" />
+
+<DocumentsTableComponent Documents="documents"></DocumentsTableComponent>
+
+@code {
+    private List<DocumentModel> documents = new()
+    { };
+
+    private List<BreadcrumbItem> breadcrumbs = new()
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Alpha1", Url = "/alpha1", IsActive = false },
+        new BreadcrumbItem { Title = "Documents Management", Url = "/alpha1/documents", IsActive = true }
+    };
+}

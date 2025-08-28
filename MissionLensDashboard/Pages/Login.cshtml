@@ -1,0 +1,25 @@
+﻿@page "/auth/signin"
+
+
+<div class="flex h-screen flex-col items-center justify-center dark:lg:bg-background space-y-10 lg:space-y-12 bg-[#ECF9F7] animate-in fade-in slide-in-from-top-8 zoom-in-95 duration-1000">
+    <div class="bg-background dark:border-border flex w-full max-w-sm flex-col items-center space-y-5 rounded-lg border-transparent px-6 md:w-8/12 md:border md:px-8 md:py-6 md:shadow lg:w-5/12 lg:px-6 xl:w-4/12 xl:py-8 2xl:w-3/12 dark:shadow">
+        <a aria-label="Home Page" href="/"><img alt="mission-lens-logo" loading="lazy" width="220" height="50" decoding="async" data-nimg="1" style="color:transparent" srcset="/_next/image?url=%2Fimages%2Fmission-lens-logo.png&amp;w=256&amp;q=75 1x, /_next/image?url=%2Fimages%2Fmission-lens-logo.png&amp;w=640&amp;q=75 2x" src="/_next/image?url=%2Fimages%2Fmission-lens-logo.png&amp;w=640&amp;q=75"></a><!--$-->
+        <h5 class="scroll-m-20 font-heading text-base font-medium lg:text-lg tracking-tight">Sign in to your account</h5>
+        <form class="w-full space-y-2.5">
+            <div class="space-y-2"><label class="text-[14px] font-[600] text-[#000] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for=":Rcqfnkv9cq:-form-item">Email Address</label><input type="email" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-[13px] font-[500] text-[#747474] shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground hover:ring-1 hover:ring-[#2ECA7F] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2ECA7F] disabled:cursor-not-allowed disabled:opacity-50" data-test="email-input" required="" placeholder="your@email.com" id=":Rcqfnkv9cq:-form-item" aria-describedby=":Rcqfnkv9cq:-form-item-description" aria-invalid="false" name="email" value=""></div>
+            <div class="space-y-2"><label class="text-[14px] font-[600] text-[#000] leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for=":Rkqfnkv9cq:-form-item">Password</label><input type="password" class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-[13px] font-[500] text-[#747474] shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground hover:ring-1 hover:ring-[#2ECA7F] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2ECA7F] disabled:cursor-not-allowed disabled:opacity-50" required="" data-test="password-input" placeholder="" id=":Rkqfnkv9cq:-form-item" aria-describedby=":Rkqfnkv9cq:-form-item-description" aria-invalid="false" name="password" value=""><a class="inline-flex items-center justify-center whitespace-nowrap font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 decoration-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs" type="button" href="/auth/password-reset">Password forgotten?</a></div>
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-base font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 group w-full" data-test="auth-submit-button" type="submit">
+                Sign in with Email
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right zoom-in animate-in slide-in-from-left-2 fill-mode-both h-4 delay-500 duration-500">
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                </svg>
+            </button>
+        </form>
+        <div class="flex justify-center"><a class="inline-flex items-center justify-center whitespace-nowrap font-semibold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 decoration-primary underline-offset-4 hover:underline h-8 rounded-md px-3 text-xs" href="/auth/sign-up">Do not have an account yet?</a></div>
+        <!--/$-->
+    </div>
+</div>
+@model MissionLensDashboard.Pages.LoginModel
+@{
+}

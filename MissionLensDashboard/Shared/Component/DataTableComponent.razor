@@ -1,0 +1,122 @@
+﻿@using System.Globalization
+@using MissionLensDashboard.Data
+
+<!-- Filters -->
+<div class="d-flex mb-3 gap-3">
+    <input class=" form-control shadow-sm rounded hover:border-green-500 border-input" placeholder="User Name" @bind="FilterUserName" />
+    <input class="form-control shadow-sm rounded hover:border-green-500 border-input" placeholder="Bot Answer" @bind="FilterBotAnswer" />
+    <select class="form-select shadow-sm rounded hover:border-green-500 border-input" @bind="FilterUserResponse">
+        <option value="">Select User Response</option>
+        <option value="flag">Flag</option>
+        <option value="disliked">Disliked</option>
+    </select>
+    <button class="btn btn-success rounded-pill fw-bold" @onclick="ApplyFilter">Filter</button>
+</div>
+<div class="shadow-sm rounded-x1 mb-5">
+    <!-- Header -->
+    <div class="text-left text-navbarActive bg-light-green py-2 px-4 rounded-top-x1">
+        <strong>AI Agent Questions</strong>
+        <p class="text-sm text-black">Number of disliked and flag questions</p>
+    </div>
+    <div class="p-4 pt-0">
+        <!-- Table -->
+        <table class="table table-hover align-middle text-sm">
+            <thead class="table-light">
+                <tr class="border-bottom border-b text-muted-foreground transition-colors">
+                    <th>User Name</th>
+                    <th>Question</th>
+                    <th>Created Date</th>
+                    <th>Training Answer</th>
+                    <th>Updated Date</th>
+                    <th>User Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var q in PagedData)
+                {
+                    <tr>
+                        <td>@q.UserName</td>
+                        <td>@q.Question</td>
+                        <td>@q.CreatedDate.ToString("M-d-yyyy h:mm:ss tt", CultureInfo.InvariantCulture)</td>
+                        <td>@q.TrainingAnswer</td>
+                        <td>@q.UpdatedDate.ToString("M-d-yyyy h:mm:ss tt", CultureInfo.InvariantCulture)</td>
+                        <td>
+                            @if (q.UserResponse == "flag")
+                            {
+                                <span class="badge bg-outline-warning px-2">flag</span>
+                            }
+                            else if (q.UserResponse == "disliked")
+                            {
+                                <span class="badge bg-outline-danger px-2">disliked</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="pb-3 px-3 d-flex justify-content-end align-items-center">
+            <button class="btn btn-sm btn-light" @onclick="PrevPage" disabled="@(_pageIndex == 0)">
+                « Prev
+            </button>
+            <span class="text-xs text-gray-500 mx-4">Page @(_pageIndex + 1) of @TotalPages</span>
+            <button class="btn btn-sm btn-light" @onclick="NextPage" disabled="@(_pageIndex + 1 >= TotalPages)">
+                Next »
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+
+    // Mock data (replace with API call)
+    private List<QuestionItem> AllQuestions = new()
+    {
+        new QuestionItem { UserName="Manager", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="Manager", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="disliked" },
+        new QuestionItem { UserName="Manager", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="flag" },
+        new QuestionItem { UserName="", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="flag" },
+        new QuestionItem { UserName="", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="Manager", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="disliked" },
+        new QuestionItem { UserName="Manager", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="flag" },
+        new QuestionItem { UserName="", Question="What is the information about set-back rules", CreatedDate=DateTime.Now, TrainingAnswer="", UpdatedDate=DateTime.Now, UserResponse="flag" },
+        new QuestionItem { UserName="", Question="hi", CreatedDate=DateTime.Now.AddDays(-10), TrainingAnswer="", UpdatedDate=DateTime.Now.AddDays(-10), UserResponse="disliked" }
+    };
+
+    private List<QuestionItem> FilteredQuestions = new();
+    private IEnumerable<QuestionItem> PagedData => FilteredQuestions.Skip(_pageIndex * PageSize).Take(PageSize);
+
+    // Filters
+    private string FilterUserName { get; set; } = "";
+    private string FilterBotAnswer { get; set; } = "";
+    private string FilterUserResponse { get; set; } = "";
+
+    // Pagination
+    private int _pageIndex = 0;
+    private int PageSize = 10;
+    private int TotalPages => (int)Math.Ceiling((double)FilteredQuestions.Count / PageSize);
+
+    protected override void OnInitialized()
+    {
+        FilteredQuestions = AllQuestions;
+    }
+
+    private void ApplyFilter()
+    {
+        FilteredQuestions = AllQuestions.Where(q =>
+            (string.IsNullOrEmpty(FilterUserName) || q.UserName.Contains(FilterUserName, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(FilterBotAnswer) || q.TrainingAnswer.Contains(FilterBotAnswer, StringComparison.OrdinalIgnoreCase)) &&
+            (string.IsNullOrEmpty(FilterUserResponse) || q.UserResponse.Equals(FilterUserResponse, StringComparison.OrdinalIgnoreCase))
+        ).ToList();
+
+        _pageIndex = 0;
+    }
+
+    private void PrevPage() => _pageIndex = Math.Max(0, _pageIndex - 1);
+    private void NextPage() => _pageIndex = Math.Min(TotalPages - 1, _pageIndex + 1);
+}

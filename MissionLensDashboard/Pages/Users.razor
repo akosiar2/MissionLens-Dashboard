@@ -1,0 +1,29 @@
+﻿@page "/alpha1/users"
+
+@using MissionLensDashboard.Shared.Component
+@using MissionLensDashboard.Data
+<BreadcrumbComponent Items="breadcrumbs" />
+
+<div class="container-fluid" >
+    <UserTableComponent Users="userList"></UserTableComponent>
+</div>
+
+
+@code{
+    private List<UserModel> userList = new()
+    {
+        new UserModel { Name="chris", Email="chris@missionlens.org", Title="", Phone="", UserType="Admin", Status="Active", LastLogin=new DateTime(2025,8,7)},
+        new UserModel { Name="Zain Saleem", Email="szain0120@gmail.com", Title="Manager", Phone="", UserType="Manager", Status="Active", LastLogin=new DateTime(2025,6,27)},
+        new UserModel { Name="Alish", Email="alish.dev@hotmail.com", Title="CTO", Phone="", UserType="Admin", Status="Active", LastLogin=new DateTime(2025,8,7)},
+        new UserModel { Name="Test", Email="test@missionlens.org", Title="Test", Phone="", UserType="Admin", Status="Active", LastLogin=new DateTime(2025,8,14)},
+        new UserModel { Name="Nimrah", Email="nimrahaftab86@gmail.com", Title="Manager", Phone="", UserType="Manager", Status="Active", LastLogin=new DateTime(2025,8,25)},
+    };
+    private List<BreadcrumbItem> breadcrumbs = new()
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Alpha1", Url = "/alpha1", IsActive = false },
+        new BreadcrumbItem { Title = "User Management", Url = "/users", IsActive = true }
+    };
+    
+}
+

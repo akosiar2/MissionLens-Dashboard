@@ -1,0 +1,57 @@
+﻿
+<div class="top-row ps-3 navbar navbar-dark mt-2">
+    <div class="container-fluid">
+        <a class="navbar-brand" aria-label="Home Page" href="/">
+            <img alt="mission-lens-logo" loading="lazy" width="220" height="50" decoding="async" data-nimg="1" 
+            src="img/mission-lens-logo.webp" style="color: transparent;"></a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="my-4">
+    <div class="container-fluid">
+
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="alpha1" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Dashboard
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="alpha1/users">
+                <span class="oi oi-people" aria-hidden="true"></span> Users
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="alpha1/documents">
+                <span class="oi oi-document" aria-hidden="true"></span> Documents
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="alpha1/chatbot">
+                <span class="oi oi-chat" aria-hidden="true"></span> Chat Bots
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="alpha1/training-management">
+                <span class="oi oi-bookmark" aria-hidden="true"></span> Training Management
+            </NavLink>
+        </div>
+    </nav>
+</div>
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

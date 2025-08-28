@@ -1,0 +1,11 @@
+﻿<div class="card mb-3 p-2 rounded-x1 border-green bg-light-green transition-all duration-200 hover:border-green-500 shadow-lg hover:shadow-xl hover:-translate-y-1 cursor-pointer" style="min-width: 250px;">
+    <div class="card-body">
+        <h6 class="card-title font-semibold leading-22 mb-0">@Title</h6>
+            @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}

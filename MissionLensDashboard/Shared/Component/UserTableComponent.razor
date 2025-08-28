@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNetCore.Components
+@using MissionLensDashboard.Data
+
+<div class="">
+    <div class="mb-3 py-2 px-4 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Users</h5>
+        <div class="d-flex justify-content-end align-items-center gap-3">
+            <button class="btn btn-outline-secondary rounded-pill">
+                Member Invites
+            </button>
+            <button class="btn btn-primary rounded-pill px-2 bg-blue" @onclick="() => ShowDialog = true">
+                <i class="oi oi-plus"></i>
+            </button>
+        </div>
+       
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr class="border-bottom border-b text-muted-foreground transition-colors">
+                    <th>User</th>
+                    <th>Email Address</th>
+                    <th>Title</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Activity Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Users)
+                {
+                    <tr>
+                        <td>@user.Name</td>
+                        <td>@user.Email</td>
+                        <td>@user.Title</td>
+                        <td>@user.Phone</td>
+                        <td>
+                            
+                            <span class="badge @GetUserTypeClass(user.UserType)  p-2">@user.UserType</span>
+                        </td>
+                        <td>
+                            <span class="badge bg-success px-3">@user.Status</span>
+                        </td>
+                        <td>
+                            <span class="text-success me-2">
+                                <i class="oi oi-signal"></i>
+                            </span>
+                            @user.LastLogin.ToString("M/d/yyyy") <br />
+                            <small class="text-muted">Last Login</small>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-secondary me-1" @onclick="() => EditUser(user)">
+                                <i class="oi oi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteUser(user)">
+                                <i class="oi oi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<AddUserDialogComponent @ref="addUserDialogRef" IsOpen="@ShowDialog" IsOpenChanged="@((value) => ShowDialog = value)" OnSave="SaveUser" />
+
+<ConfirmDialogComponent @ref="confirmDialog" OnClose="HandleConfirmClose" />
+<ToastComponent @ref="toastRef" />
+
+@code {
+    [Parameter] public List<UserModel> Users { get; set; } = new();
+    private AddUserDialogComponent addUserDialogRef;
+    private bool ShowDialog = false;
+
+    private ConfirmDialogComponent? confirmDialog;
+    private ToastComponent toastRef;
+
+    private void EditUser(UserModel user)
+    {
+        // Open modal or navigate to edit page
+        Console.WriteLine($"Edit user: {user.Name}");
+    }
+
+    private void DeleteUser(UserModel user)
+    {
+        confirmDialog?.Show("Delete User", $"Are you sure you want to delete '{user.Name}'?");
+        // Show confirm dialog then delete
+        Console.WriteLine($"Delete user: {user.Name}");
+    }
+
+    private void SaveUser(UserModel user)
+    {
+        toastRef.Show("User successfully!", "success");
+        Console.WriteLine($"User Added: {user.Name}, {user.Email}");
+        // Save to DB or call API here
+    }
+
+    private string GetUserTypeClass(string status) => status switch
+    {
+        "Admin" => "bg-dark",
+        "Manager" => "rounded border text-dark",
+        _ => "bg-primary"
+    };
+
+    private async Task HandleConfirmClose(bool confirmed)
+    {
+
+    }
+}
