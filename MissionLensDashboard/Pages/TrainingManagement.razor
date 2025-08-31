@@ -1,6 +1,30 @@
 ﻿@page "/alpha1/training-management"
-<h3>TrainingManagement</h3>
+@using MissionLensDashboard.Shared.Component
+@using MissionLensDashboard.Data
+
+<BreadcrumbComponent Items="breadcrumbs"></BreadcrumbComponent>
+<div class="container-fluid">
+    <TrainingManagementTableComponent Training="traningModels"></TrainingManagementTableComponent>
+</div>
 
 @code {
+    private List<BreadcrumbItem> breadcrumbs = new()
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Alpha1", Url = "/alpha1", IsActive = false },
+        new BreadcrumbItem { Title = "Training Management", Url = "/alpha1/training-management", IsActive = true }
+    };
 
+    private List<TrainingManagementModel> traningModels = new()
+    {
+        new TrainingManagementModel {Question = "This is a chatbot", BotAnswer="false", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""},
+        new TrainingManagementModel {Question ="Is this real", 
+            BotAnswer= "I’m not seeing that information in the resources I have. I’ve escalated your question to Admin. They’ll review it and get back to you promptly.", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""}, 
+        new TrainingManagementModel {Question = "This is a chatbot", BotAnswer="false", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""},
+        new TrainingManagementModel {Question ="Is this real",
+            BotAnswer= "I’m not seeing that information in the resources I have. I’ve escalated your question to Admin. They’ll review it and get back to you promptly.", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""}, 
+        new TrainingManagementModel {Question = "This is a chatbot", BotAnswer="false", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""},
+        new TrainingManagementModel {Question ="Is this real",
+            BotAnswer= "I’m not seeing that information in the resources I have. I’ve escalated your question to Admin. They’ll review it and get back to you promptly.", Answer ="", BotType ="Bot AI", EmbeddingsGenerated="No", UserResponse="N/A", UserNotes=""}
+    };
 }

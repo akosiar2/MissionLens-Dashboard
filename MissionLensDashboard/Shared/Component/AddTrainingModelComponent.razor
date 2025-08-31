@@ -6,53 +6,37 @@
 
             <!-- Header -->
             <div class="modal-header border-0">
-                <h5 class="modal-title">Add a User</h5>
+                <h5 class="modal-title">Add Training Model</h5>
                 <button type="button" class="btn-close" @onclick="Close"></button>
             </div>
 
             <!-- Body -->
             <div class="modal-body">
-                <EditForm Model="NewDocument" OnValidSubmit="HandleValidSubmit">
+                <EditForm Model="NewModel" OnValidSubmit="HandleValidSubmit">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
 
-                    <!-- Profile Picture Upload -->
-                    <div class="text-center mb-3 d-flex gap-2 text-sm justify-content-center align-items-center">
-
-                        <InputFile OnChange="HandleFileSelected" class="d-none" id="profileUpload" />
-                        <label for="profileUpload" class="btn btn-outline-secondary rounded-circle" style="width:100px; height:100px; display:flex; justify-content:center; align-items:center;">
-                            <i class="oi oi-image" style="font-size:1.5rem;"></i>
-                        </label>
-                        <div class="d-flex text-left flex-column">
-                            <label>Upload a Profile Picture</label>
-                            <div>Choose a photo to upload as your profile picture.</div>
-                        </div>
-                    </div>
-
-                   @*  <!-- User Type -->
-                    <div class="mb-3">
-                        <label>User Type</label>
-                        <InputSelect class="form-select shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewDocument.">
-                            <option value="">Select user type</option>
-                            <option value="Admin">Admin</option>
-                            <option value="Manager">Manager</option>
-                            <option value="Member">Member</option>
-                        </InputSelect>
-                    </div>
 
                     <!-- Name & Email -->
                     <div class="row mb-3">
                         <div class="col">
-                            <label>Name</label>
-                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Name" />
+                            <label>Question</label>
+                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewModel.Question" />
                         </div>
+                    </div> 
+                    <div class="row mb-3">
                         <div class="col">
-                            <label>Email</label>
-                            <InputText class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewUser.Email" type="email" />
+                            <label>Answer</label>
+                            <InputTextArea class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewModel.Answer" />
                         </div>
-                    </div> *@
-
-                   @*  <!-- Phone & Title -->
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label>Related Document</label>
+                            <InputTextArea class="form-control shadow-sm rounded hover:border-green-500 border-input" @bind-Value="NewModel.EmbeddingsGenerated" />
+                        </div>
+                    </div>
+                    @*  <!-- Phone & Title -->
                     <div class="row mb-3">
                         <div class="col">
                             <label>Phone</label>
@@ -78,7 +62,7 @@
 
                     <!-- Save Button -->
                     <div class="text-center">
-                        <button type="submit" class="btn btn-success rounded-pill px-5">Save</button>
+                        <button type="submit" class="btn btn-success rounded-pill px-5"><i class="oi oi-file"></i>Save</button>
                     </div>
                 </EditForm>
             </div>
@@ -92,9 +76,9 @@
 @code {
     [Parameter] public bool IsOpen { get; set; }
     [Parameter] public EventCallback<bool> IsOpenChanged { get; set; }
-    [Parameter] public EventCallback<DocumentModel> OnSave { get; set; }
+    [Parameter] public EventCallback<TrainingManagementModel> OnSave { get; set; }
 
-    private DocumentModel NewDocument { get; set; } = new();
+    private TrainingManagementModel NewModel { get; set; } = new();
 
     private void Close()
     {
@@ -104,15 +88,9 @@
 
     private async Task HandleValidSubmit()
     {
-        await OnSave.InvokeAsync(NewDocument);
+        await OnSave.InvokeAsync(NewModel);
         Close();
     }
 
-    private async Task HandleFileSelected(InputFileChangeEventArgs e)
-    {
-        var file = e.File;
-        // Handle file upload here (store as base64, upload to API, etc.)
-        Console.WriteLine($"Uploaded: {file.Name}");
-    }
 
 }

@@ -1,0 +1,9 @@
+﻿.document-table {
+    table-layout: fixed; /* makes columns respect width */
+    width: 100%;
+}
+
+    .document-table th, .my-table td {
+        overflow-wrap: break-word;
+        white-space: nowrap;
+    }

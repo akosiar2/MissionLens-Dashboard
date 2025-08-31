@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Components.Web
+@using MissionLensDashboard.Data
+@inject IJSRuntime JSRunTime
+
+<div class="chat-window" @onscroll="OnScroll">
+    @foreach (var message in Messages)
+    {
+        <div class="chat-message @(message.IsUser ? "user" : "bot")">
+            <div class="bubble">@message.Text</div>
+        </div>
+    }
+
+    @if (IsLoading)
+    {
+        <div class="loading">Loading more messages...</div>
+    }
+</div>
+
+<div class="chat-input">
+    <input type="text" @bind="NewMessage" @bind:event="oninput" placeholder="Type Message" />
+    <button @onclick="SendMessage">➤</button>
+</div>
+
+@code {
+    [Parameter] public List<ChatMessage> Messages { get; set; } = new();
+    private string NewMessage { get; set; } = "";
+    private bool IsLoading = false;
+    private int Page = 0;
+    private int PageSize = 20;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMessages();
+    }
+
+    private async Task LoadMessages()
+    {
+        IsLoading = true;
+        await Task.Delay(800); // simulate API delay
+
+        // Fake data
+        var newMessages = Enumerable.Range(Page * PageSize, PageSize)
+            .Select(i => new ChatMessage
+            {
+                Text = $"Message {i + 1}",
+                IsUser = i % 2 == 0
+            }).ToList();
+
+        Messages.InsertRange(0, newMessages); // prepend messages
+        Page++;
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private async Task OnScroll(EventArgs e)
+    {
+        var element = await JSRunTime.InvokeAsync<ScrollInfo>("getScrollInfo", ".chat-window");
+        if (element.ScrollTop == 0 && !IsLoading)
+        {
+            await LoadMessages(); // load older messages when scrolled to top
+        }
+    }
+
+    private void SendMessage()
+    {
+        if (!string.IsNullOrWhiteSpace(NewMessage))
+        {
+            Messages.Add(new ChatMessage { Text = NewMessage, IsUser = true });
+            NewMessage = "";
+        }
+    }
+
+    public class ScrollInfo
+    {
+        public int ScrollTop { get; set; }
+        public int ScrollHeight { get; set; }
+        public int ClientHeight { get; set; }
+    }
+
+}

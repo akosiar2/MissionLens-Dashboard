@@ -1,16 +1,46 @@
 ﻿@inherits LayoutComponentBase
-
-<PageTitle>MissionLensDashboard</PageTitle>
-
 <div class="page bg-gray">
     <div class="sidebar">
         <NavMenu />
     </div>
 
     <main>
-        
         <article class="content px-3 rounded mx-1 my-2 bg-background border-main">
             @Body
         </article>
     </main>
 </div>
+@* <AuthorizeView>
+    <Authorized>
+        <div class="page bg-gray">
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <main>
+
+                <article class="content px-3 rounded mx-1 my-2 bg-background border-main">
+                    @Body
+                </article>
+            </main>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized. Redirecting to login...</p>
+        @code {
+            protected override void OnAfterRender(bool firstRender)
+            {
+                if (firstRender)
+                {
+                    Navigation.NavigateTo("/auth/signin");
+                }
+            }
+        }
+    </NotAuthorized>
+</AuthorizeView> *@
+
+
+@code {
+    [Inject] private NavigationManager Navigation { get; set; } = default!;
+
+}

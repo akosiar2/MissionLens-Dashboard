@@ -1,0 +1,15 @@
+﻿@page "/logout"
+
+@using MissionLensDashboard.Services 
+@inject CustomAuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+<p>Logging out...</p>
+
+@code {
+    protected override void OnInitialized()
+    {
+        AuthStateProvider.Logout();
+        NavigationManager.NavigateTo("/", true);
+    }
+}

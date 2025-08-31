@@ -13,10 +13,10 @@ main {
     background-color: rgb(236 249 247);
 }
 
-.bg-\[\#ECF9F7\] {
+/*.bg-\[\#ECF9F7\] {
     --tw-bg-opacity: 1;
     background-color: rgb(236 249 247 / var(--tw-bg-opacity) 1 );
-}
+}*/
 
 .top-row {
     background-color: #f7f7f7;

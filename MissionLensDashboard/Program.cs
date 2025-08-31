@@ -1,15 +1,39 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Components.Web;
 using MissionLensDashboard.Data;
+using MissionLensDashboard.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add authentication
+//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+//    .AddCookie(options =>
+//    {
+//        options.LoginPath = "/auth/login";   // redirect if not logged in
+//        options.LogoutPath = "/auth/logout";
+//    });
+
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<CustomAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<CustomAuthenticationStateProvider>());
+
+// Blazor + AuthenticationStateProvider
+//builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+//builder.Services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

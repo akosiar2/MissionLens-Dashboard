@@ -1,28 +1,29 @@
 ﻿@using Microsoft.AspNetCore.Components
 @using MissionLensDashboard.Data
 
-<h5 class="mb-3">Documents</h5>
+<h5 class="mb-3">Training Management</h5>
 <div class="card">
     <div class="card-body">
-        <div class=" p-3 d-flex justify-content-end align-items-center">
+        <div class=" p-3 d-flex justify-content-start align-items-center gap-3">
             <button class="btn btn-primary rounded-pill px-2 bg-blue" @onclick="() => ShowDialog = true">
                 <i class="oi oi-plus"></i>
             </button>
+            <button class="btn btn-primary rounded-pill px-2 bg-blue">
+                <i class="oi oi-chat"></i> Review Chats
+            </button>
         </div>
-
+        <hr />
         <div class="table-responsive text-sm">
             <table class="table table-hover align-middle document-table">
                 <thead class="table-light">
                     <tr class="border-bottom border-b text-muted-foreground transition-colors">
-                        <th scope="col">Name</th>
-                        <th scope="col">Document</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Version</th>
+                        <th scope="col">Question</th>
+                        <th scope="col">Bot Answer</th>
+                        <th scope="col">Answer</th>
                         <th scope="col">Embeddings Generated</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Approved</th>
-                        <th scope="col">Available to Sub Entities</th>
-                        <th scope="col">Expiry Date</th>
+                        <th scope="col">Bot Type</th>
+                        <th scope="col">User Response</th>
+                        <th scope="col">User Notes</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
@@ -30,29 +31,23 @@
                     @foreach (var doc in PagedData)
                     {
                         <tr>
-                            <td>@doc.Name</td>
-                            <td>@doc.Document</td>
-                            <td>@doc.Category</td>
-                            <td>@doc.Version</td>
+                            <td>@doc.Question</td>
+                            <td>@doc.BotAnswer</td>
+                            <td>@doc.Answer</td>
                             <td>
                                 <span class="badge @GetCssClass(doc.EmbeddingsGenerated)">@doc.EmbeddingsGenerated</span>
                             </td>
                             <td>
-                                <span class="badge @GetCssClass(doc.Status)">@doc.Status</span>
+                                <span class="badge @GetCssClass(doc.BotType)">@doc.BotType</span>
                             </td>
                             <td>
-                                <span class="badge @GetCssClass(doc.Approved)"> @doc.Approved</span>
+                                @doc.UserResponse
                             </td>
                             <td>
-                                <span class="badge @GetCssClass(doc.Available)">@doc.Available</span>
+                                @doc.UserNotes
                             </td>
+                            
                             <td>
-                                @(doc.ExpiryDate is not null ? doc.ExpiryDate.Value.ToString("M/d/yyyy") : "Does not Expire")
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-secondary me-1" @onclick="() => ViewDoc(doc)">
-                                    <i class="oi oi-eye"></i>
-                                </button>
                                 <button class="btn btn-sm btn-outline-secondary me-1" @onclick="() => EditUser(doc)">
                                     <i class="oi oi-pencil"></i>
                                 </button>
@@ -79,22 +74,21 @@
 
 </div>
 
-<AddDocumentsDialogComponent @ref="addUserDialogRef" IsOpen="@ShowDialog" IsOpenChanged="@((value) => ShowDialog = value)" OnSave="SaveUser" />
+<AddTrainingModelComponent @ref="addUserDialogRef" IsOpen="@ShowDialog" IsOpenChanged="@((value) => ShowDialog = value)" OnSave="SaveUser" />
 
 <ConfirmDialogComponent @ref="confirmDialog" OnClose="HandleConfirmClose" />
 <ToastComponent @ref="toastRef" />
 
 @code {
-    [Parameter] public List<DocumentModel> Documents { get; set; } = new();
-    //private AddUserDialogComponent addUserDialogRef;
-    private AddDocumentsDialogComponent addUserDialogRef;
+    [Parameter] public List<TrainingManagementModel> Training { get; set; } = new();
+    private AddTrainingModelComponent addUserDialogRef;
     private bool ShowDialog = false;
 
     private ConfirmDialogComponent? confirmDialog;
     private ToastComponent toastRef;
 
-    private List<DocumentModel> FilteredData = new();
-    private IEnumerable<DocumentModel> PagedData => FilteredData.Skip(_pageIndex * PageSize).Take(PageSize);
+    private List<TrainingManagementModel> FilteredData = new();
+    private IEnumerable<TrainingManagementModel> PagedData => FilteredData.Skip(_pageIndex * PageSize).Take(PageSize);
 
     // Pagination
     private int _pageIndex = 0;
@@ -103,32 +97,29 @@
 
     protected override void OnInitialized()
     {
-        FilteredData = Documents;
+        FilteredData = Training;
     }
 
     private void PrevPage() => _pageIndex = Math.Max(0, _pageIndex - 1);
     private void NextPage() => _pageIndex = Math.Min(TotalPages - 1, _pageIndex + 1);
 
-    private void ViewDoc(DocumentModel doc)
-    {
-        
-    }
+   
 
-    private void EditUser(DocumentModel user)
+    private void EditUser(TrainingManagementModel train)
     {
         // Open modal or navigate to edit page
-        Console.WriteLine($"Edit user: {user.Name}");
+        Console.WriteLine($"Edit user: {train.Question}");
     }
 
-    private void DeleteUser(DocumentModel user)
+    private void DeleteUser(TrainingManagementModel train)
     {
         // Show confirm dialog then delete
-        Console.WriteLine($"Delete user: {user.Name}");
+        Console.WriteLine($"Delete user: {train.Question}");
     }
 
-    private void SaveUser(DocumentModel user)
+    private void SaveUser(TrainingManagementModel train)
     {
-        Console.WriteLine($"User Added: {user.Name}, {user.Document}");
+        Console.WriteLine($"Training model Added: {train.Question}, {train.BotAnswer}");
         // Save to DB or call API here
     }
 
@@ -142,7 +133,7 @@
         "Yes" => "bg-outline-success",
         "No" => "bg-outline-danger",
         "Published" => "bg-outline-success",
-        "Draft" => "bg-outline-blue",
+        "Bot AI" => "bg-outline-blue",
         _ => "bg-primary"
     };
 }

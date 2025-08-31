@@ -1,7 +1,23 @@
 ﻿@page "/alpha1/chatbot"
+@using MissionLensDashboard.Shared.Component
+@using MissionLensDashboard.Data
 
-<h3>ChatBots</h3>
+<BreadcrumbComponent Items="breadcrumbs"></BreadcrumbComponent>
+<div class="container-fluid">
+    <ChatWindowComponent Messages="chatMessages"></ChatWindowComponent>
+</div>
 
 @code {
+    private List<BreadcrumbItem> breadcrumbs = new()
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Alpha1", Url = "/alpha1", IsActive = false },
+        new BreadcrumbItem { Title = "Chat Bot", Url = "/alpha1/chatbot", IsActive = true }
+    };
 
+    private List<ChatMessage> chatMessages = new()
+    {
+        new ChatMessage {Text = "This is a chatbot", IsUser=false},
+        new ChatMessage {Text ="Is this real", IsUser= true}
+    };
 }

@@ -45,6 +45,13 @@
         </div>
     </nav>
 </div>
+
+<AuthorizeView>
+    <div class="position-absolute bottom-0">
+        <button type="button">@context.User.Identity.Name!</button>
+    </div>
+</AuthorizeView>
+
 @code {
     private bool collapseNavMenu = true;
 

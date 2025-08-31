@@ -1,0 +1,13 @@
+﻿body {
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--background) / var(--tw-bg-opacity));
+    --tw-text-opacity: 1;
+    color: hsl(var(--foreground) / var(--tw-text-opacity));
+    -webkit-font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+.bg-background {
+    --tw-bg-opacity: 1;
+    background-color: hsl(var(--background) / var(--tw-bg-opacity));
+}

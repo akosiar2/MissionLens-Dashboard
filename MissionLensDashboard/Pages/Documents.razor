@@ -7,7 +7,20 @@
 
 @code {
     private List<DocumentModel> documents = new()
-    { };
+    {
+        new DocumentModel { Name="one drive setup", Document="ver-1-OneDriveSetup.docx", Category="guide", Version="", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="Before and After Care", Document="ver-1-BASE Family Handbook 2022-2023_FINAL_072722_FINAL.pdf", Category="guide", Version="", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="new file text", Document="ver-1-new-file.txt", Category=".txt", Version="1", EmbeddingsGenerated="Yes", Status="Draft", Approved="No", Available="No", ExpiryDate=null},
+        new DocumentModel { Name="one drive setup", Document="ver-1-OneDriveSetup.docx", Category="guide", Version="", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="PRD", Document="ver-2-PRD.docx", Category=".docx", Version="", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="personal-note.txt", Document="ver-1-personal-note.txt", Category=".txt", Version="", EmbeddingsGenerated="Yes", Status="Draft", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="Common Parent Complaints About Summer Camps", Document="ver-1-Common Parent Complaints About Summer Camps.docx", Category="policy", Version="2", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="Yes", ExpiryDate=null},
+        new DocumentModel { Name="Camp Wilton", Document="ver-1-https___srymca_org_campwilton.pdf", Category="guide", Version="", EmbeddingsGenerated="Yes", Status="Draft", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="PRD", Document="ver-2-PRD.docx", Category=".docx", Version="", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="personal-note.txt", Document="ver-1-personal-note.txt", Category=".txt", Version="", EmbeddingsGenerated="Yes", Status="Draft", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+        new DocumentModel { Name="Common Parent Complaints About Summer Camps", Document="ver-1-Common Parent Complaints About Summer Camps.docx", Category="policy", Version="2", EmbeddingsGenerated="Yes", Status="Published", Approved="Yes", Available="Yes", ExpiryDate=null},
+        new DocumentModel { Name="Camp Wilton", Document="ver-1-https___srymca_org_campwilton.pdf", Category="guide", Version="", EmbeddingsGenerated="Yes", Status="Draft", Approved="Yes", Available="No", ExpiryDate=new DateTime(2025,8,7)},
+    };
 
     private List<BreadcrumbItem> breadcrumbs = new()
     {
