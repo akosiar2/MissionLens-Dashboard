@@ -2,9 +2,10 @@
 <div class="top-row ps-3 navbar navbar-dark mt-2">
     <div class="container-fluid">
         <a class="navbar-brand" aria-label="Home Page" href="/">
-            <img alt="mission-lens-logo" loading="lazy" width="220" height="50" decoding="async" data-nimg="1" 
-            src="img/mission-lens-logo.webp" style="color: transparent;"></a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <img alt="mission-lens-logo" loading="lazy" width="220" height="50" decoding="async" data-nimg="1"
+                 src="img/mission-lens-logo.webp" style="color: transparent;">
+        </a>
+        <button title="Navigation menu" class="navbar-toggler bg-secondary" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
@@ -12,11 +13,10 @@
 
 <div class="my-4">
     <div class="container-fluid">
-
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable">
     <nav class="flex-column">
         <div class="nav-item px-3 ">
             <NavLink class="nav-link" href="alpha1" Match="NavLinkMatch.All">
@@ -40,20 +40,38 @@
         </div>
         <div class="nav-item px-3 ">
             <NavLink class="nav-link" href="alpha1/training-management">
-                <span class="oi oi-bookmark" aria-hidden="true"></span> Training Management
+                <span class="oi oi-book" aria-hidden="true"></span> Training Management
             </NavLink>
         </div>
     </nav>
+
+    <div class="d-flex flex-column py-1">
+        <button class="text-muted border-0 bg-transparent px-3 d-flex justify-content-between align-items-center @(ActiveIndex ? "" : "collapse") "
+                type="button" aria-expanded="false" aria-controls="collapseOne" @onclick="() => ToggleSetting()">
+            Settings
+            <i class="arrow-icon ms-2 @(ActiveIndex ? "open" : "")"></i>
+            @*  <span class="accordion-arrow ms-auto"></span> *@
+        </button>
+        <div class="nav-item px-3 my-2 collapse @(ActiveIndex ? "show" : "")" aria-labelledby="Settings">
+            <NavLink class="nav-link text-black" href="alpha1/settings">
+                <span class="oi oi-cog" aria-hidden="true"></span> Settings
+            </NavLink>
+        </div>
+    </div>
+
+    <AuthorizeView> 
+    <div class="position-sticky bottom-0 w-100 ">
+        <button type="button">chris.lens</button>
+    </div>
+    </AuthorizeView>
+
 </div>
 
-<AuthorizeView>
-    <div class="position-absolute bottom-0">
-        <button type="button">@context.User.Identity.Name!</button>
-    </div>
-</AuthorizeView>
+
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapseNavMenu = false;
+    private bool ActiveIndex { get; set; } = false;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
@@ -61,4 +79,10 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+    private void ToggleSetting()
+    {
+        ActiveIndex = !ActiveIndex;
+    }
+
 }

@@ -5,7 +5,10 @@
 <div class="chat-window" @onscroll="OnScroll">
     @foreach (var message in Messages)
     {
-        <div class="chat-message @(message.IsUser ? "user" : "bot")">
+        <div class="avatar">
+
+        </div>
+        <div class="chat-message rounded @(message.IsUser ? "user" : "bot")">
             <div class="bubble">@message.Text</div>
         </div>
     }
@@ -17,7 +20,7 @@
 </div>
 
 <div class="chat-input">
-    <input type="text" @bind="NewMessage" @bind:event="oninput" placeholder="Type Message" />
+    <textarea rows="4" @bind="NewMessage" s @bind:event="oninput"></textarea>
     <button @onclick="SendMessage">➤</button>
 </div>
 
@@ -39,14 +42,14 @@
         await Task.Delay(800); // simulate API delay
 
         // Fake data
-        var newMessages = Enumerable.Range(Page * PageSize, PageSize)
-            .Select(i => new ChatMessage
-            {
-                Text = $"Message {i + 1}",
-                IsUser = i % 2 == 0
-            }).ToList();
+        // var newMessages = Enumerable.Range(Page * PageSize, PageSize)
+        //     .Select(i => new ChatMessage
+        //     {
+        //         Text = $"Message {i + 1}",
+        //         IsUser = i % 2 == 0
+        //     }).ToList();
 
-        Messages.InsertRange(0, newMessages); // prepend messages
+        // Messages.InsertRange(0, newMessages); // prepend messages
         Page++;
         IsLoading = false;
         StateHasChanged();

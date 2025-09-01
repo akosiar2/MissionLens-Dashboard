@@ -1,0 +1,197 @@
+﻿@page "/alpha1/settings"
+
+@using MissionLensDashboard.Shared.Component
+@using MissionLensDashboard.Data
+<BreadcrumbComponent Items="breadcrumbs" />
+
+<div class="container mx-0 w-auto">
+    <h3>Settings</h3>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3" id="settingsTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general"
+                    type="button" role="tab" aria-controls="general" aria-selected="true">
+                General
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="responsibilities-tab" data-bs-toggle="tab" data-bs-target="#responsibilities"
+                    type="button" role="tab" aria-controls="responsibilities" aria-selected="false">
+                My Job Responsibilities in Team
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="location-tab" data-bs-toggle="tab" data-bs-target="#location"
+                    type="button" role="tab" aria-controls="location" aria-selected="false">
+                Create Location
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="settingsTabsContent">
+        <!-- General Tab -->
+        <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+
+            <!-- Team Logo -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Team Logo</h5>
+                    <p class="text-muted">Update your team's logo to make it easier to identify</p>
+                    <div class="text-center mb-3 d-flex gap-2 text-sm justify-content-center align-items-center">
+
+                        <InputFile OnChange="HandleFileSelected" class="d-none" id="profileUpload" />
+                        <label for="profileUpload" class="btn btn-outline-secondary rounded-circle" style="width:100px; height:100px; display:flex; justify-content:center; align-items:center;">
+                            <i class="oi oi-image" style="font-size:1.5rem;"></i>
+                        </label>
+                        <div class="d-flex text-left flex-column">
+                            <label>Upload a Profile Picture</label>
+                            <div>Choose a photo to upload as your profile picture.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Team Name -->
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Team Name</h5>
+                    <p class="text-muted text-center">Update your team's name</p>
+
+                    <EditForm Model="@teamModel" OnValidSubmit="UpdateTeam">
+                        <div class="mb-3">
+                            <label for="teamName" class="form-label">Team Name</label>
+                            <InputText id="teamName" class="form-control" @bind-Value="teamModel.TeamName" />
+                        </div>
+                        <button type="submit" class="btn btn-dark">Update Team</button>
+                    </EditForm>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="card border-danger mb-4">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger">Danger Zone</h5>
+                    <p class="text-muted">This section contains actions that are irreversible</p>
+                    <p class="small">
+                        Click the button below to leave the team. Remember, you will no longer have access to it and will need to be re-invited to join.
+                    </p>
+                    <button class="btn btn-danger" @onclick="LeaveTeam">Leave Team</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Job Responsibilities Tab -->
+        <div class="tab-pane fade" id="responsibilities" role="tabpanel" aria-labelledby="responsibilities-tab">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="teamName" class="form-label">Job Responsibilities</label>
+                        <InputSelect id="responsibilities" class="form-control rounded hover:border-green-500 border-input" @bind-value="teamModel.Responsibilities">
+                            <option value="Karate Instruction">Karate Instruction</option>
+                            <option value="Admin">Woodworking</option>
+                            <option value="Manager">Winemaking</option>
+                            <option value="Member">Member</option>
+                        </InputSelect>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="location" role="tabpanel" aria-labelledby="location-tab">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Create Location</h5>
+                    <p class="text-muted">Create a new location to manage your projects and members.</p>
+
+                    <!-- Alert -->
+                    <div class="alert alert-warning d-flex align-items-center py-2" role="alert">
+                        <i class="oi oi-warning me-2"></i>
+                        Charges apply when creating a new location.
+                    </div>
+
+                    <!-- Form -->
+                    <EditForm Model="@locationModel" OnValidSubmit="CreateLocation">
+                        <div class="mb-3">
+                            <label for="locationName" class="form-label">Location Name</label>
+                            <InputText id="locationName" class="form-control"
+                                       placeholder="Enter location name"
+                                       @bind-Value="locationModel.LocationName" />
+                            <small class="form-text text-muted">
+                                Your location name should be unique and descriptive
+                            </small>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary me-2" @onclick="Cancel">
+                                Cancel
+                            </button>
+                            <button type="submit" class="btn btn-dark">
+                                Create Location
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+@code {
+    private List<BreadcrumbItem> breadcrumbs = new()
+    {
+        new BreadcrumbItem { Title = "Home", Url = "/", IsActive = false },
+        new BreadcrumbItem { Title = "Alpha1", Url = "/alpha1", IsActive = false },
+        new BreadcrumbItem { Title = "User Management", Url = "/users", IsActive = true }
+    };
+
+    private TeamModel teamModel = new TeamModel { TeamName = "Alpha" };
+    private LocationModel locationModel = new();
+
+    private void HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        // Handle image upload here
+        var file = e.File;
+        Console.WriteLine($"Selected file: {file.Name}");
+    }
+
+    private void UpdateTeam()
+    {
+        Console.WriteLine($"Updated Team Name: {teamModel.TeamName}");
+    }
+
+    private void LeaveTeam()
+    {
+        Console.WriteLine("User left the team.");
+        // Add your logic here
+    }
+
+    private void CreateLocation()
+    {
+        Console.WriteLine($"Creating Location: {locationModel.LocationName}");
+        // Add your logic here
+    }
+
+    private void Cancel()
+    {
+        Console.WriteLine("Cancelled.");
+        // Navigation logic or reset form
+    }
+
+    public class TeamModel
+    {
+        public string TeamName { get; set; }
+        public string Responsibilities { get; set; }
+    }
+
+    public class LocationModel
+    {
+        public string LocationName { get; set; }
+    }
+}

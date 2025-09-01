@@ -63,13 +63,27 @@
     color: white;
 }
 
+.arrow-icon {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-right: 2px solid #333;
+    border-bottom: 2px solid #333;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+
+    .arrow-icon.open {
+        transform: rotate(-135deg);
+    }
+
 
 @media (min-width: 641px) {
     .navbar-toggler {
         display: none;
     }
 
-    .collapse {
+    .nav-scrollable  {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }

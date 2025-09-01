@@ -3,7 +3,12 @@
 @using MissionLensDashboard.Data
 
 <BreadcrumbComponent Items="breadcrumbs"></BreadcrumbComponent>
+
 <div class="container-fluid">
+    <div class="mb-3">
+        <h3>Chat Bot</h3>
+    </div>
+    
     <ChatWindowComponent Messages="chatMessages"></ChatWindowComponent>
 </div>
 
@@ -18,6 +23,17 @@
     private List<ChatMessage> chatMessages = new()
     {
         new ChatMessage {Text = "This is a chatbot", IsUser=false},
-        new ChatMessage {Text ="Is this real", IsUser= true}
+        new ChatMessage {Text ="Is this real", IsUser= true},
+        new ChatMessage {Text = "How much is karate class?", IsUser = true},
+        new ChatMessage {Text = "We are facing some issue while responding to your query , please try again in a while.", IsUser=false},
+        new ChatMessage {Text = "How much is karate class?", IsUser = true},
+        new ChatMessage {Text = "We are facing some issue while responding to your query , please try again in a while.", IsUser=false},
+        new ChatMessage {Text = "What can I do at Camp Wilton?", IsUser = true},
+        new ChatMessage {Text = "I couldn't find that information in the document provided. However, I can share details about Camp Wilton if you're interested. Alternatively, you can upload a document related to Camp Wilton for more accurate information.", IsUser=false},
+        new ChatMessage {Text = "escalating your query to chris, they will get back to you as soon as possible", IsUser=false},
+        new ChatMessage {Text = "Yes, tell me about Camp Wilton", IsUser = true},
+        new ChatMessage {Text = "I couldn't find that information in the document provided. However, I can share details about Camp Wilton if you're interested. Alternatively, you can upload a document related to Camp Wilton for more accurate information.", IsUser=false},
+        new ChatMessage {Text = "How much is personal training?", IsUser = true},
+        new ChatMessage {Text = "Individual personal training packages cost $148 for 4 sessions (30 minutes each), $248 for 4 sessions (60 minutes each), $272 for 8 sessions (30 minutes each), $464 for 8 sessions (60 minutes each), $384 for 12 sessions (30 minutes each), and $660 for 12 sessions (60 minutes each). Partner training packages (60 minutes each) cost $364 for 4 sessions, $680 for 8 sessions, and $984 for 12 sessions.", IsUser=false},
     };
 }
